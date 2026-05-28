@@ -1,0 +1,21 @@
+# ByT5 실험용 최소 의존성.
+# 사용자가 직접 venv/conda 환경에서 설치한다.
+#
+# datasets/pyarrow: Hugging Face parquet dataset 로딩
+# polars: 빠른 데이터 분석 및 MFR/오류 분석용
+# transformers: google/byt5-small tokenizer/model 로딩
+# torch: PyTorch backend. CUDA 버전은 환경에 따라 별도 설치가 필요할 수 있다.
+# accelerate: Transformers training loop와 device 배치 보조
+# sentencepiece: T5/mT5 계열 tokenizer 호환성용
+# tqdm: 진행률 표시
+# pyyaml: 설정 파일 관리용
+
+datasets>=2.19.2
+pyarrow>=14.0.2
+polars>=0.20.0
+transformers>=4.41.0
+torch>=2.2.0
+accelerate>=0.30.0
+sentencepiece>=0.2.0
+tqdm>=4.66.0
+pyyaml>=6.0.0

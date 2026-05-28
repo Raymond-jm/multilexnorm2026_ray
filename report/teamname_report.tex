@@ -1,0 +1,78 @@
+\documentclass[11pt]{article}
+
+\usepackage[review]{../acl-style-files-master/acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+\title{TBD: MultiLexNorm2026 Report}
+
+\author{
+  TeamName \\
+  Affiliation TBD \\
+  \texttt{email@domain.tbd}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+TBD. This file is an ACL-style scaffold for the final English report.
+The working Korean draft is maintained in \texttt{docs/report\_draft\_ko.md}.
+\end{abstract}
+
+\section{Introduction}
+
+TBD. Summarize the MultiLexNorm2026 task, noisy social media lexical normalization, the ERR metric, and the need for validation beyond the public leaderboard.
+
+\section{Related Work}
+
+TBD. Discuss MultiLexNorm 2021 \citep{van-der-goot-etal-2021-multilexnorm}, the UFAL ByT5 system \citep{samuel-straka-2021-ufal}, ByT5 \citep{xue-etal-2022-byt5}, and MFR/MoNoise baselines \citep{van-der-goot-2019-monoise,van-der-goot-2021-cl}.
+
+\section{Model}
+
+TBD. Describe the MFR baseline first. Add proposed systems only after experiments are confirmed.
+
+\section{Experiments}
+
+TBD. Record data splits, commands, hyperparameters, and validation or cross-validation settings.
+
+\section{Results}
+
+TBD. Include macro-average ERR and per-language ERR.
+
+\begin{table}[t]
+  \centering
+  \begin{tabular}{lrr}
+    \toprule
+    System & Validation ERR & Public ERR \\
+    \midrule
+    LAI & TBD & TBD \\
+    MFR & TBD & TBD \\
+    TBD & TBD & TBD \\
+    \bottomrule
+  \end{tabular}
+  \caption{Overall lexical normalization results.}
+  \label{tab:overall-results}
+\end{table}
+
+\section{Conclusion}
+
+TBD. Summarize what was reproduced, what improved, and which limitations remain.
+
+\section*{Limitations}
+
+TBD. Discuss language coverage, public leaderboard overfitting risk, computational budget, and constraints on additional lexical-normalization data.
+
+\section*{Ethics Statement}
+
+TBD. Discuss noisy user-generated text, multilingual coverage, and responsible use of normalization systems.
+
+\bibliography{references}
+
+\end{document}

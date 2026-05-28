@@ -1,0 +1,227 @@
+# ByT5 experiments for languages that have a public validation split.
+#
+# This file is a manual experiment manifest, not an automatic runner yet.
+# The language sample JSONL files already exist under sample_data/byt5/lang.
+# The user should choose one language block and run train/evaluate commands
+# from the project root.  The build command is kept only as a regeneration
+# reference in case a sample file is intentionally rebuilt later.
+
+dataset:
+  name: multilexnorm2026-dev-pub
+  data_dir: data/raw/multilexnorm2026-dev-pub
+  train_split: train
+  validation_split: validation
+
+defaults:
+  model_name: google/byt5-small
+  sample_dir: sample_data/byt5/lang
+  output_root: outputs/byt5
+  batch_size: 4
+  gradient_accumulation_steps: 1
+  learning_rate: 5.0e-5
+  warmup_steps: 100
+  max_input_length: 256
+  max_target_length: 32
+  eval_batch_size: 64
+  max_new_tokens: 32
+  log_every: 10
+  save_every: 5000
+  seed: 42
+  max_examples: -1
+  limit_sentences: -1
+  sample_files_prebuilt: true
+
+validation_languages:
+  - de
+  - en
+  - hr
+  - id
+  - iden
+  - ja
+  - ko
+  - nl
+  - sl
+  - sr
+  - th
+  - vi
+
+languages:
+  de:
+    train_rows: 1628
+    train_token_examples: 15006
+    validation_rows: 573
+    validation_token_examples: 4860
+    validation_changed_tokens: 873
+    max_steps_1epoch_bs4: 3752
+    train_examples: sample_data/byt5/lang/train_de_examples.jsonl
+    output_dir: outputs/byt5/lang_de_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_de_1epoch_bs4/validation_eval_de
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang de --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_de_examples.jsonl --output-dir outputs/byt5/lang_de_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 3752 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_de_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_de_1epoch_bs4/validation_eval_de --lang de --batch-size 64 --limit-sentences -1
+
+  en:
+    train_rows: 2360
+    train_token_examples: 35216
+    validation_rows: 590
+    validation_token_examples: 9169
+    validation_changed_tokens: 633
+    max_steps_1epoch_bs4: 8804
+    train_examples: sample_data/byt5/lang/train_en_examples.jsonl
+    output_dir: outputs/byt5/lang_en_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_en_1epoch_bs4/validation_eval_en
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang en --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_en_examples.jsonl --output-dir outputs/byt5/lang_en_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 8804 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_en_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_en_1epoch_bs4/validation_eval_en --lang en --batch-size 64 --limit-sentences -1
+
+  hr:
+    train_rows: 4760
+    train_token_examples: 54416
+    validation_rows: 1588
+    validation_token_examples: 18941
+    validation_changed_tokens: 1683
+    max_steps_1epoch_bs4: 13604
+    train_examples: sample_data/byt5/lang/train_hr_examples.jsonl
+    output_dir: outputs/byt5/lang_hr_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_hr_1epoch_bs4/validation_eval_hr
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang hr --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_hr_examples.jsonl --output-dir outputs/byt5/lang_hr_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 13604 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_hr_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_hr_1epoch_bs4/validation_eval_hr --lang hr --batch-size 64 --limit-sentences -1
+
+  id:
+    train_rows: 3016
+    train_token_examples: 35502
+    validation_rows: 431
+    validation_token_examples: 4306
+    validation_changed_tokens: 2057
+    max_steps_1epoch_bs4: 8876
+    train_examples: sample_data/byt5/lang/train_id_examples.jsonl
+    output_dir: outputs/byt5/lang_id_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_id_1epoch_bs4/validation_eval_id
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang id --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_id_examples.jsonl --output-dir outputs/byt5/lang_id_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 8876 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_id_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_id_1epoch_bs4/validation_eval_id --lang id --batch-size 64 --limit-sentences -1
+
+  iden:
+    train_rows: 495
+    train_token_examples: 13949
+    validation_rows: 165
+    validation_token_examples: 4809
+    validation_changed_tokens: 585
+    max_steps_1epoch_bs4: 3488
+    train_examples: sample_data/byt5/lang/train_iden_examples.jsonl
+    output_dir: outputs/byt5/lang_iden_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_iden_1epoch_bs4/validation_eval_iden
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang iden --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_iden_examples.jsonl --output-dir outputs/byt5/lang_iden_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 3488 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_iden_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_iden_1epoch_bs4/validation_eval_iden --lang iden --batch-size 64 --limit-sentences -1
+
+  ja:
+    train_rows: 2132
+    train_token_examples: 61903
+    validation_rows: 305
+    validation_token_examples: 10919
+    validation_changed_tokens: 683
+    max_steps_1epoch_bs4: 15476
+    train_examples: sample_data/byt5/lang/train_ja_examples.jsonl
+    output_dir: outputs/byt5/lang_ja_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_ja_1epoch_bs4/validation_eval_ja
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang ja --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_ja_examples.jsonl --output-dir outputs/byt5/lang_ja_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 15476 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_ja_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_ja_1epoch_bs4/validation_eval_ja --lang ja --batch-size 64 --limit-sentences -1
+
+  ko:
+    train_rows: 1701
+    train_token_examples: 13130
+    validation_rows: 212
+    validation_token_examples: 1880
+    validation_changed_tokens: 166
+    max_steps_1epoch_bs4: 3283
+    train_examples: sample_data/byt5/lang/train_ko_examples.jsonl
+    output_dir: outputs/byt5/lang_ko_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_ko_1epoch_bs4/validation_eval_ko
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang ko --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_ko_examples.jsonl --output-dir outputs/byt5/lang_ko_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 3283 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_ko_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_ko_1epoch_bs4/validation_eval_ko --lang ko --batch-size 64 --limit-sentences -1
+
+  nl:
+    train_rows: 907
+    train_token_examples: 12381
+    validation_rows: 308
+    validation_token_examples: 3863
+    validation_changed_tokens: 1093
+    max_steps_1epoch_bs4: 3096
+    train_examples: sample_data/byt5/lang/train_nl_examples.jsonl
+    output_dir: outputs/byt5/lang_nl_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_nl_1epoch_bs4/validation_eval_nl
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang nl --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_nl_examples.jsonl --output-dir outputs/byt5/lang_nl_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 3096 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_nl_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_nl_1epoch_bs4/validation_eval_nl --lang nl --batch-size 64 --limit-sentences -1
+
+  sl:
+    train_rows: 4670
+    train_token_examples: 44944
+    validation_rows: 1557
+    validation_token_examples: 15311
+    validation_changed_tokens: 2391
+    max_steps_1epoch_bs4: 11236
+    train_examples: sample_data/byt5/lang/train_sl_examples.jsonl
+    output_dir: outputs/byt5/lang_sl_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_sl_1epoch_bs4/validation_eval_sl
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang sl --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_sl_examples.jsonl --output-dir outputs/byt5/lang_sl_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 11236 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_sl_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_sl_1epoch_bs4/validation_eval_sl --lang sl --batch-size 64 --limit-sentences -1
+
+  sr:
+    train_rows: 4138
+    train_token_examples: 56823
+    validation_rows: 1379
+    validation_token_examples: 17796
+    validation_changed_tokens: 1361
+    max_steps_1epoch_bs4: 14206
+    train_examples: sample_data/byt5/lang/train_sr_examples.jsonl
+    output_dir: outputs/byt5/lang_sr_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_sr_1epoch_bs4/validation_eval_sr
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang sr --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_sr_examples.jsonl --output-dir outputs/byt5/lang_sr_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 14206 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_sr_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_sr_1epoch_bs4/validation_eval_sr --lang sr --batch-size 64 --limit-sentences -1
+
+  th:
+    train_rows: 1750
+    train_token_examples: 140423
+    validation_rows: 250
+    validation_token_examples: 19872
+    validation_changed_tokens: 786
+    max_steps_1epoch_bs4: 35106
+    train_examples: sample_data/byt5/lang/train_th_examples.jsonl
+    output_dir: outputs/byt5/lang_th_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_th_1epoch_bs4/validation_eval_th
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang th --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_th_examples.jsonl --output-dir outputs/byt5/lang_th_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 35106 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_th_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_th_1epoch_bs4/validation_eval_th --lang th --batch-size 64 --limit-sentences -1
+
+  vi:
+    train_rows: 8371
+    train_token_examples: 101793
+    validation_rows: 1050
+    validation_token_examples: 13651
+    validation_changed_tokens: 2133
+    max_steps_1epoch_bs4: 25449
+    train_examples: sample_data/byt5/lang/train_vi_examples.jsonl
+    output_dir: outputs/byt5/lang_vi_1epoch_bs4
+    validation_output_dir: outputs/byt5/lang_vi_1epoch_bs4/validation_eval_vi
+    commands:
+      regenerate_sample: python3 scripts/byt5/build_lang_byt5_examples.py --lang vi --output-dir sample_data/byt5/lang
+      train: python3 scripts/byt5/finetune_byt5.py --examples sample_data/byt5/lang/train_vi_examples.jsonl --output-dir outputs/byt5/lang_vi_1epoch_bs4 --model-name google/byt5-small --max-examples -1 --max-steps 25449 --batch-size 4 --gradient-accumulation-steps 1 --learning-rate 5e-5 --warmup-steps 100 --max-input-length 256 --max-target-length 32 --log-every 10
+      evaluate: python3 scripts/byt5/evaluate_checkpoint.py --checkpoint outputs/byt5/lang_vi_1epoch_bs4/checkpoint --output-dir outputs/byt5/lang_vi_1epoch_bs4/validation_eval_vi --lang vi --batch-size 64 --limit-sentences -1

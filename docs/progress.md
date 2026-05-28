@@ -1,0 +1,102 @@
+# Progress
+
+## 2026-05-28
+
+- AGENTS.md 작업 기준 확인.
+- MultiLexNorm 2021 UFAL winning system 논문을 읽고 한국어 정리 작성.
+- Shared task overview와 2021 task page를 함께 확인하여 대회 목적, 데이터 구성, 평가 방식, baseline을 정리.
+- 작성 문서: `docs/ufal_multilexnorm2021_notes_ko.md`
+- ACL-style 보고서로 옮기기 쉬운 한국어 초안 작성 시작.
+- 작성 문서: `docs/report_draft_ko.md`
+- ACL-style 최종 영어 보고서용 LaTeX scaffold 및 bibliography 생성.
+- 작성 문서: `report/teamname_report.tex`, `report/references.bib`
+- 과제 가이드라인 PDF 2개 확인 및 분석 문서 작성.
+- 작성 문서: `docs/assignment_guidelines_analysis_ko.md`
+- Hugging Face `dev-pub`/`full-pub` dataset 다운로드 및 구조 확인.
+- 작성 문서: `docs/data_overview_ko.md`
+- Baseline GitHub repository clone 및 MFR/evaluation/submission format 분석.
+- 작성 문서: `docs/baseline_repo_analysis_ko.md`
+- MFR의 unseen 한계를 보완하기 위한 pretrained/ByT5 관련 논문 추가 정리.
+- 작성 문서: `docs/pretrained_model_literature_notes_ko.md`
+- UFAL MultiLexNorm 2021 공개 구현 clone 및 재현 가능성 분석.
+- 작성 문서: `docs/ufal_code_analysis_ko.md`
+- ByT5 실험 환경 세팅 문서와 requirements 초안 작성.
+- 작성 파일: `requirements-byt5.txt`, `docs/environment_setup_ko.md`
+- Baseline repo MFR validation 실행 결과 기록.
+- MFR validation result: LAI 88.48, Accuracy 92.97, ERR 39.02.
+- MFR seen/unseen error analysis script와 실행 계획 문서를 실험별 디렉터리로 정리.
+- 작성 파일: `scripts/mfr/analyze_mfr_errors.py`, `docs/experiments/mfr/error_analysis_plan_ko.md`
+- ByT5 UFAL-style token-level example builder와 실험 문서 작성.
+- 작성 파일: `scripts/byt5/build_byt5_examples.py`, `docs/experiments/byt5/data_builder_plan_ko.md`
+- ByT5 data builder sample 실행 결과 확인.
+- 확인된 예시: `tilfaeldigt -> tilfældigt` with context-marked input.
+- ByT5 smoke test 통과 확인.
+- 확인 결과: input shape `(4, 32)`, label shape `(4, 12)`, loss `9.298801`.
+- ByT5 tiny fine-tuning smoke test 완료.
+- 결과: first_loss `9.629842`, last_loss `10.530208`, checkpoint saved at `outputs/byt5/tiny_finetune/checkpoint`.
+- ByT5 tiny checkpoint generation smoke test 완료.
+- 결과: checkpoint load/generation works; prediction quality not interpreted due to tiny 20-step training.
+- ByT5 validation inference/evaluation script와 문서 작성.
+- 작성 파일: `scripts/byt5/evaluate_checkpoint.py`, `docs/experiments/byt5/validation_eval_plan_ko.md`
+- ByT5 validation evaluation pipeline smoke test 완료.
+- tiny checkpoint 결과는 성능으로 해석하지 않음: LAI `82.62`, model accuracy `0.00`, ERR `-475.29`.
+- ByT5 5k/100-step smoke fine-tuning 완료.
+- 결과: first_loss `14.825723`, last_loss `3.635378`, checkpoint `outputs/byt5/smoke_5k_100steps/checkpoint`.
+- ByT5 controlled fine-tuning script와 실험 계획 문서 작성.
+- 작성 파일: `scripts/byt5/finetune_byt5.py`, `docs/experiments/byt5/controlled_finetune_plan_ko.md`
+- 언어별 ByT5 example builder와 계획 문서 작성.
+- 작성 파일: `scripts/byt5/build_lang_byt5_examples.py`, `docs/experiments/byt5/language_specific_data_plan_ko.md`
+- 실행 확인용 smoke test 스크립트와 관련 문서 삭제.
+- 삭제 파일: `scripts/byt5/smoke_test_byt5.py`, `scripts/byt5/tiny_finetune_byt5.py`, `scripts/byt5/test_checkpoint_generation.py`, 관련 `docs/experiments/byt5/*smoke*/*tiny*/*checkpoint_generation*` 문서.
+- ByT5 학습 입력 JSONL 저장 위치를 `outputs/byt5/data/`에서 `sample_data/byt5/`로 변경.
+- ByT5 context-marked 50k/1000-step 학습 및 validation 결과 기록.
+- 결과: training loss `13.085028 -> 0.199638`, validation model accuracy `70.03`, ERR `-160.14`.
+- ByT5 validation evaluator에 `--lang` 필터 추가.
+- 한국어 language-specific ByT5 실험 계획 문서 작성.
+- 작성 파일: `docs/experiments/byt5/korean_specific_plan_ko.md`
+- ByT5 한국어 전용 1000-step 학습 완료.
+- 결과: first_loss `3.240163`, last_loss `0.033255`, avg_last_10 `0.549009`, checkpoint `outputs/byt5/lang_ko_1000steps/checkpoint`.
+- ByT5 한국어 전용 1000-step validation 완료.
+- 결과: LAI `91.17`, model accuracy `79.41`, ERR `-133.13`; MFR보다 낮음.
+- ByT5 한국어 validation prediction 오류 분석 완료.
+- 결과: changed token accuracy `0/166`, unchanged over-edit `221`.
+- 작성 파일: `scripts/byt5/analyze_prediction_errors.py`, `docs/experiments/byt5/korean_error_analysis_ko.md`
+- 한국어 changed-balanced ByT5 데이터 builder와 실험 계획 작성.
+- 작성 파일: `scripts/byt5/build_changed_balanced_examples.py`, `docs/experiments/byt5/korean_changed_balanced_plan_ko.md`
+- 한국어 보수적 decoding margin evaluator와 실험 계획 작성.
+- 작성 파일: `scripts/byt5/evaluate_checkpoint_with_margin.py`, `docs/experiments/byt5/korean_conservative_decoding_plan_ko.md`
+- MFR 기반 ByT5 hybrid evaluator와 실험 계획 작성.
+- 작성 파일: `scripts/byt5/hybrid_mfr_byt5_eval.py`, `docs/experiments/byt5/hybrid_mfr_byt5_plan_ko.md`
+- 한국어 hybrid MFR+ByT5 margin evaluation 완료.
+- 결과: best threshold `5.0`, accuracy `92.18`, ERR `11.45`; MFR과 동일하며 ByT5 개선 없음.
+- 한국어 ByT5 실험 결과와 해석을 보고서 초안에 반영.
+- `da`는 official validation split에 없으므로 언어별 validation 평가가 불가능함을 문서에 명시.
+- ByT5 한국어 전용 1 epoch 학습 완료.
+- 결과: first_loss `3.240163`, last_loss `0.532505`, avg_last_10 `0.056538`, checkpoint `outputs/byt5/lang_ko_1epoch_bs4/checkpoint`.
+- ByT5 한국어 전용 1 epoch validation 및 오류 분석 완료.
+- 결과: LAI `91.17`, model accuracy `80.48`, ERR `-121.08`, changed accuracy `0/166`, unchanged over-edit `201`.
+- ByT5 독일어 전용 1 epoch validation 결과 기록.
+- 결과: LAI `82.04`, model accuracy `86.60`, ERR `25.43`; 한국어와 달리 positive ERR 확인.
+- 독일어 결과를 `experiments/experiment_log.md`와 `docs/report_draft_ko.md`에 반영.
+- validation이 있는 12개 언어에 대해 언어별 ByT5 학습/평가와 MFR 비교표 생성을 자동화하는 스크립트 작성.
+- 작성 파일: `scripts/byt5/run_validation_language_experiments.py`
+- Dry-run 확인 완료. 비교표 출력: `outputs/byt5/validation_language_comparison/comparison_summary.md`
+- ByT5 fine-tuning에 중간 checkpoint 저장 및 resume 기능 추가.
+- 기본 저장 간격: `--save-every 5000`; 자동화 스크립트는 `checkpoint_step_N` 중 가장 최신 것을 찾아 이어서 학습한다.
+- ByT5 영어 전용 1 epoch validation 결과 기록.
+- 결과: LAI `93.10`, MFR ERR `28.91`, ByT5 accuracy `96.14`, ByT5 ERR `44.08`; ByT5가 MFR보다 `+15.17` ERR 개선.
+- 영어 결과와 de/en/ko 비교 해석을 `experiments/experiment_log.md`와 `docs/report_draft_ko.md`에 반영.
+- 한국어 ByT5 실패 원인 분석 추가.
+- 핵심 근거: 한국어 changed token 수 부족, validation changed pair 반복성 낮음, slang/semantic replacement 비중, 조사/어미가 붙은 eojeol 문제, byte-level input truncation 비율 증가.
+- 한국어/일본어 성능 개선을 위한 관련 문헌 및 데이터 분석 문서 작성.
+- 작성 파일: `docs/experiments/byt5/ko_ja_improvement_literature_ko.md`
+
+## Next
+
+- baseline repository setup 여부 확인.
+- data loading 구조 확인.
+- MFR baseline 재현 계획 수립.
+- 언어별 MFR 한계 분석 template 작성.
+- report draft의 TBD 항목을 실제 실험 결과로 업데이트.
+- baseline GitHub repository 기반 작업 환경 확인.
+- 데이터 schema와 split 기준으로 MFR 재현 계획 확정.
