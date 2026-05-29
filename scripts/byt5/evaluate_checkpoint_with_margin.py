@@ -168,6 +168,11 @@ def main() -> None:
         help="Comma-separated margin thresholds.",
     )
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument(
+        "--allow-cpu",
+        action="store_true",
+        help="Allow CPU evaluation. By default this script exits if CUDA is unavailable.",
+    )
     args = parser.parse_args()
 
     thresholds = [float(x) for x in args.thresholds.split(",") if x.strip()]
@@ -178,9 +183,14 @@ def main() -> None:
         raise RuntimeError("No validation token examples.")
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    if not torch.cuda.is_available() and not args.allow_cpu:
+        raise RuntimeError(
+            "CUDA is not available, so evaluation was stopped before starting. "
+            "Fix the GPU/CUDA environment or pass --allow-cpu intentionally."
+        )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(args.checkpoint)
-    model = AutoModelForSeq2SeqLM.from_pretrained(args.checkpoint).to(device)
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.checkpoint, use_safetensors=True).to(device)
     model.eval()
 
     dataloader = DataLoader(

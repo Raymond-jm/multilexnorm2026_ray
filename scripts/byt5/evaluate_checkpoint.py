@@ -207,6 +207,11 @@ def main() -> None:
         default=None,
         help="Optional language filter, e.g. ko. If omitted, evaluate all validation languages.",
     )
+    parser.add_argument(
+        "--allow-cpu",
+        action="store_true",
+        help="Allow CPU evaluation. By default this script exits if CUDA is unavailable.",
+    )
     args = parser.parse_args()
 
     limit_sentences = None if args.limit_sentences < 0 else args.limit_sentences
@@ -217,9 +222,14 @@ def main() -> None:
     if len(dataset) == 0:
         raise RuntimeError("Validation dataset produced zero token examples.")
 
+    if not torch.cuda.is_available() and not args.allow_cpu:
+        raise RuntimeError(
+            "CUDA is not available, so evaluation was stopped before starting. "
+            "Fix the GPU/CUDA environment or pass --allow-cpu intentionally."
+        )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(args.checkpoint)
-    model = AutoModelForSeq2SeqLM.from_pretrained(args.checkpoint).to(device)
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.checkpoint, use_safetensors=True).to(device)
     model.eval()
 
     dataloader = DataLoader(

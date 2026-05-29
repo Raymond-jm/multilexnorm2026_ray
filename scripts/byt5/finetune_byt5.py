@@ -191,6 +191,11 @@ def main() -> None:
         default=None,
         help="Resume model weights and, when available, optimizer/scheduler state from checkpoint_step_N.",
     )
+    parser.add_argument(
+        "--allow-cpu",
+        action="store_true",
+        help="Allow CPU training. By default this script exits if CUDA is unavailable.",
+    )
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()
 
@@ -204,10 +209,15 @@ def main() -> None:
     train_log_path = args.output_dir / "train_log.jsonl"
     config_path.write_text(json.dumps(vars(args), ensure_ascii=False, indent=2, default=str), encoding="utf-8")
 
+    if not torch.cuda.is_available() and not args.allow_cpu:
+        raise RuntimeError(
+            "CUDA is not available, so training was stopped before starting. "
+            "Fix the GPU/CUDA environment or pass --allow-cpu intentionally."
+        )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model_source = args.resume_from_checkpoint if args.resume_from_checkpoint is not None else args.model_name
     tokenizer = AutoTokenizer.from_pretrained(model_source)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_source).to(device)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_source, use_safetensors=True).to(device)
     model.train()
 
     dataset = JsonlSeq2SeqDataset(args.examples, max_examples=args.max_examples, seed=args.seed)
@@ -306,7 +316,7 @@ def main() -> None:
 
                 if args.save_every > 0 and step % args.save_every == 0:
                     checkpoint_dir = args.output_dir / f"checkpoint_step_{step}"
-                    model.save_pretrained(checkpoint_dir)
+                    model.save_pretrained(checkpoint_dir, safe_serialization=True)
                     tokenizer.save_pretrained(checkpoint_dir)
                     save_training_state(
                         checkpoint_dir,
@@ -323,7 +333,7 @@ def main() -> None:
 
     progress.close()
     final_checkpoint = args.output_dir / "checkpoint"
-    model.save_pretrained(final_checkpoint)
+    model.save_pretrained(final_checkpoint, safe_serialization=True)
     tokenizer.save_pretrained(final_checkpoint)
     save_training_state(
         final_checkpoint,
